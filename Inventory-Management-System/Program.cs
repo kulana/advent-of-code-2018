@@ -12,7 +12,8 @@ namespace Inventory_Management_System
         {
             var input = GetInput();
             Problem1(input);
-            //Problem2();
+            Problem2(input);
+            Console.ReadLine();
         }
 
         private static void Problem1(IList<Id> items)
@@ -21,6 +22,13 @@ namespace Inventory_Management_System
             var appears2TimesCount = items.Count(id => id.HasOfAnyLetter(2));
             var appears3TimesCount = items.Count(id => id.HasOfAnyLetter(3));
             Console.WriteLine($"Checksum for {appears2TimesCount} * {appears3TimesCount} = {appears2TimesCount* appears3TimesCount}");
+        }
+
+        private static void Problem2(IList<Id> items)
+        {
+            // second part of puzzle
+            var analyzer = new Analyzer(items);
+            Console.WriteLine($"Common characters for the IDs found = {analyzer.GetCommonLetters()}");
         }
 
         private static IList<Id> GetInput()

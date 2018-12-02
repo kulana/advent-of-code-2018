@@ -17,6 +17,32 @@ namespace Inventory_Management_System
             Value = input;
         }
 
+        public bool DiffersOneCharWith(Id input)
+        {
+            // two IDs should be same length
+            if (Value.Length != input.Value.Length)
+            {
+                return false;
+            }
+            // same IDs always return false
+            if (Value == input.Value)
+            {
+                return false;
+            }
+            var diffCount = 0;
+            var index = 0;
+            // compare char by char, stop when input length reached or #different characters exceeds 1
+            while ((diffCount <= 1) && (index < Value.Length))
+            {
+                if (Value[index] != input.Value[index])
+                {
+                    diffCount++;
+                }
+                index++;
+            }
+            return (diffCount == 1);
+        }
+
         public bool HasOfAnyLetter(int count)
         {
             IDictionary<char, int> frequencyTable = new Dictionary<char, int>();
@@ -24,13 +50,11 @@ namespace Inventory_Management_System
             {
                 Add(frequencyTable, c);
             }
-            // get list of all characters with the specified frequency count
-            var items = frequencyTable.Values.Where(c => c == count).ToList();
-            // there should be only 1 item with this frequency
-            return items.Count > 0;
+            // true if the requested frequency count appears at least once
+            return frequencyTable.Values.Any(c => c == count);
         }
 
-        private void Add(IDictionary<char, int> frequencyTable, char c)
+        private static void Add(IDictionary<char, int> frequencyTable, char c)
         {
             if (frequencyTable.ContainsKey(c))
             {
